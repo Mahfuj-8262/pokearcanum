@@ -1,31 +1,25 @@
 import Link from "next/link";
-import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "@/components/ui/navigation-menu";
+import Image from "next/image";
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import logo from "@/../public/your-logo.png"; // Place your logo in public/your-logo.png
 
 export default function Header() {
   return (
-    <header className="w-full bg-white/80 backdrop-blur sticky top-0 z-50 shadow">
-      <nav className="container mx-auto flex items-center justify-between py-4">
-        <Link href="/" className="flex items-center gap-2 font-extrabold text-2xl text-indigo-700 tracking-tight">
-          <span>🃏</span> PokeArcanum
+    <header className="bg-slate-600 text-white shadow sticky top-0 z-50">
+      <nav className="container mx-auto flex items-center justify-between py-3 px-8">
+        <Link href="/" className="flex items-center gap-2 font-extrabold text-2xl text-amber-300 tracking-tight">
+          <Image src={logo} alt="PokéArcanum" height={48} />
+          <span>PokéArcanum</span>
         </Link>
         <NavigationMenu>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <Link href="/marketplace" className="px-4 py-2 text-indigo-700 hover:text-indigo-900 transition">Marketplace</Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/signup">
-                <Button size="sm" className="ml-6">Sign Up</Button>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/login">
-                <Button variant="outline" size="sm">Log In</Button>
-              </Link>
-            </NavigationMenuItem>
+          <NavigationMenuList className="gap-2">
+            <NavigationMenuItem><Link href="/" className="px-2 py-1">Home</Link></NavigationMenuItem>
+            <NavigationMenuItem><Link href="/marketplace" className="px-2 py-1">Marketplace</Link></NavigationMenuItem>
+            <NavigationMenuItem><Link href="/pokemon-legends" className="px-2 py-1">Pokemon Legends</Link></NavigationMenuItem>
+            <NavigationMenuItem><Link href="/about" className="px-2 py-1">About Us</Link></NavigationMenuItem>
+            <NavigationMenuItem><Link href="/signup" className="px-2 py-1"><Button size="sm">Sign Up</Button></Link></NavigationMenuItem>
+            <NavigationMenuItem><Link href="/login" className="px-2 py-1"><Button size="sm" variant="outline" className="text-slate-950">Sign In</Button></Link></NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       </nav>
