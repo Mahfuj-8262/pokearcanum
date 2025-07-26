@@ -6,7 +6,7 @@ export default function HowItWorks() {
     { title: "Connect & Rate", desc: "Chat, finalize deals, and build your trader reputation." }
   ];
   return (
-    <section className="my-14 px-3 pb-10" style={{fontFamily: "'Luckiest Guy', 'Comic Sans MS', cursive, sans-serif"}}>
+    <section className="my-14 px-3 pb-10" >
       <h2 className="text-2xl text-center font-bold text-orange-400 mb-7">How It Works</h2>
       <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
         {steps.map((s, i) => (

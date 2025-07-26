@@ -18,7 +18,7 @@ const lastTransactions = [
 
 export default function DashboardStats() {
   return (
-    <section className="w-full flex flex-col md:flex-row gap-8 mt-10" style={{fontFamily: "'Luckiest Guy', 'Comic Sans MS', cursive, sans-serif"}}>
+    <section className="w-full flex flex-col md:flex-row gap-8 mt-10" >
       {/* Users */}
       <Card className="flex-1 shadow bg-amber-300">
         <CardHeader>
