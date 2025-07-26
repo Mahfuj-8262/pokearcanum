@@ -10,7 +10,7 @@ export default function DashboardPage() {
   const username = "AshKetchum";
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-100 flex flex-col items-center py-10">
+    <main className="min-h-screen flex flex-col items-center py-10">
       <div className="w-full max-w-3xl bg-white/95 border border-indigo-100 rounded-xl shadow-xl p-8 mb-10">
         <h1 className="text-3xl font-bold mb-2 text-indigo-900">Hi, {username}!</h1>
         <p className="text-lg mb-6 text-gray-700">Welcome to your dashboard — here’s your Pokémon trading activity at a glance:</p>

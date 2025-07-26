@@ -36,7 +36,7 @@ function StarBar({ stars }: { stars: number }) {
 
 export default function ProfilePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-teal-100 py-12 px-3 flex flex-col items-center">
+    <main className="min-h-screen py-12 px-3 flex flex-col items-center">
       <div className="max-w-2xl w-full bg-white rounded-xl shadow-xl border border-indigo-100 p-8">
         <div className="flex items-center gap-6">
           <img src={user.avatar} alt={user.username} className="w-20 h-20 rounded-full border" />

@@ -25,7 +25,7 @@ export default function ChatThreadPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-teal-100 py-12">
+    <main className="min-h-screen py-12">
       <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-xl border border-indigo-100 flex flex-col h-[70vh]">
         <div className="px-7 py-5 border-b border-indigo-100">
           <h2 className="text-lg font-bold">Chat with {params.partnerId}</h2>

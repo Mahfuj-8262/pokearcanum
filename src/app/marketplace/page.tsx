@@ -31,7 +31,7 @@ const mockCards: CardPreviewProps[] = [
 export default function MarketplacePage() {
   // For search/filter features, use useState and filter the list (to be added later!)
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 py-12 px-3 flex flex-col items-center">
+    <main className="min-h-screen  py-12 px-3 flex flex-col items-center">
       <div className="max-w-5xl w-full">
         <h1 className="text-4xl font-extrabold mb-4 text-center text-blue-900">Marketplace</h1>
         <p className="text-lg text-center text-gray-600 mb-8">Explore cards for trade, auction, or instant purchase.</p>

@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className="bg-gray-100">
         <Header />
-        <main style={{
+        <main className="bg-gradient-to-br from-zinc-700 via-zinc-500 to-zinc-400" style={{
             fontFamily: "'Baloo 2', 'Comic Sans MS', cursive, sans-serif",
           }}>{children}</main>
         <Footer />

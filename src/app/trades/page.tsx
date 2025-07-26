@@ -44,7 +44,7 @@ const trades = [
 
 export default function TradesPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 py-12">
+    <main className="min-h-screen py-12">
       <div className="max-w-4xl mx-auto rounded-xl shadow-xl bg-white/95 border border-indigo-100 p-8">
         <h1 className="text-3xl font-bold mb-7 text-indigo-900">Transaction History</h1>
         {trades.length === 0 ? (

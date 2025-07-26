@@ -25,7 +25,7 @@ const myCards: CardPreviewProps[] = [
 
 export default function InventoryPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-teal-100 py-12 px-3 flex flex-col items-center">
+    <main className="min-h-screen py-12 px-3 flex flex-col items-center">
       <div className="w-full max-w-5xl">
         <div className="flex flex-wrap items-center justify-between mb-8 gap-3">
           <h1 className="text-3xl font-bold text-indigo-900">My Inventory</h1>

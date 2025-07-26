@@ -35,7 +35,7 @@ const notifications = [
 
 export default function NotificationsPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 py-12 px-3 flex flex-col items-center">
+    <main className="min-h-screen py-12 px-3 flex flex-col items-center">
       <div className="w-full max-w-2xl bg-white rounded-xl shadow-xl border border-indigo-100 p-7">
         <h1 className="text-2xl font-bold mb-5 text-indigo-900">Notifications</h1>
         {notifications.length === 0 ? (

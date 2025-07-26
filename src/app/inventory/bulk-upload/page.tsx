@@ -59,7 +59,7 @@ export default function BulkUploadPage() {
   }
 
   return (
-    <main className="min-h-screen py-10 flex flex-col bg-gradient-to-br from-teal-50 to-indigo-100 items-center">
+    <main className="min-h-screen py-10 flex flex-col items-center">
       <div className="w-full max-w-3xl bg-white rounded-xl shadow-xl p-8 border border-indigo-100">
         <h1 className="text-2xl font-extrabold mb-2 text-center text-indigo-900">Bulk Upload Cards</h1>
         <p className="text-gray-700 text-center mb-6">

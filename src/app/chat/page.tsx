@@ -21,7 +21,7 @@ const fakeThreads = [
 
 export default function ChatPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-teal-100 py-12">
+    <main className="min-h-screen py-12">
       <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-xl border border-indigo-100 p-7">
         <h1 className="text-2xl font-bold mb-5 text-indigo-900">Chats</h1>
         {fakeThreads.length === 0 ? (
