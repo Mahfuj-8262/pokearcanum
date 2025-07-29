@@ -39,12 +39,12 @@ export default function Header() {
             </li>
           ))}
           <li>
-            <Link href="/signup">
+            <Link href="/sign-up">
               <Button size="sm" className="ml-0.5 lg:ml-2 text-xs lg:text-sm">Sign Up</Button>
             </Link>
           </li>
           <li>
-            <Link href="/login">
+            <Link href="/sign-in">
               <Button
                 size="sm"
                 variant="outline"
@@ -125,12 +125,12 @@ export default function Header() {
                   </li>
                 ))}
                 <li>
-                  <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
+                  <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
                     <Button size="sm" className="w-full mt-3">Sign Up</Button>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                  <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
                     <Button size="sm" variant="outline" className="w-full text-slate-950 mt-1">Sign In</Button>
                   </Link>
                 </li>
