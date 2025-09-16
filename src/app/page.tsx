@@ -21,24 +21,6 @@ const homePosters = [
   "/posters/poster4.jpg", // String is OK, just no caption
 ];
 
-
-//  const customCaption = (
-//     <div className="flex flex-col items-start">
-//       <span className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold drop-shadow-lg">
-//         Welcome
-//       </span>
-//       <span className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold drop-shadow-md mt-2">
-//         to the heaven
-//       </span>
-//       <span className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold drop-shadow-md mt-2">
-//         of Pokemon Cards!
-//       </span>
-//       <span className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold drop-shadow-md mt-1">
-//         Ready to dive?
-//       </span>
-//     </div>
-//   );
-
 const customCaption = (
   <div className={`flex flex-col items-start ${luckiestGuy.className}`}>
     <span

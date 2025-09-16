@@ -3,7 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import logo from "@/../public/your-logo.png"; // Place your logo in public/your-logo.png
+import logo from "@/../public/your-logo.png"; 
+import { useAuth } from "@/context/AuthContext";
 
 const navLinks = [
   { href: "/", text: "Home" },
@@ -14,6 +15,8 @@ const navLinks = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const { user, isAuthenticated, logout } = useAuth();
 
   return (
     <header className="bg-slate-600 text-white shadow sticky top-0 z-50" style={{fontFamily: "'Golos Text', sans-serif",}}>
@@ -38,22 +41,52 @@ export default function Header() {
               </Link>
             </li>
           ))}
-          <li>
-            <Link href="/sign-up">
-              <Button size="sm" className="ml-0.5 lg:ml-2 text-xs lg:text-sm">Sign Up</Button>
-            </Link>
-          </li>
-          <li>
-            <Link href="/sign-in">
-              <Button
-                size="sm"
-                variant="outline"
-                className="text-slate-950 ml-0.5 text-xs lg:text-sm"
-              >
-                Sign In
-              </Button>
-            </Link>
-          </li>
+          {!isAuthenticated ? (
+            <>
+              <li>
+                <Link href="/sign-up">
+                  <Button size="sm" className="ml-0.5 lg:ml-2 text-xs lg:text-sm">
+                    Sign Up
+                  </Button>
+                </Link>
+              </li>
+              <li>
+                <Link href="/sign-in">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-slate-950 ml-0.5 text-xs lg:text-sm"
+                  >
+                    Sign In
+                  </Button>
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link href="/dashboard">
+                  <Button
+                    size="sm"
+                    className="ml-0.5 lg:ml-2 text-xs lg:text-sm bg-yellow-400 text-black hover:bg-yellow-500"
+                  >
+                    {user?.userName || "My Account"}
+                  </Button>
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    logout();
+                    window.location.href = "/";
+                  }}
+                  className="ml-0.5 lg:ml-2 text-xs lg:text-sm bg-red-500 text-white hover:bg-red-600 px-3 py-1.5 rounded"
+                >
+                  Log Out
+                </button>
+              </li>
+            </>
+          )}
         </ul>
 
 
@@ -124,16 +157,53 @@ export default function Header() {
                     </Link>
                   </li>
                 ))}
-                <li>
-                  <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
-                    <Button size="sm" className="w-full mt-3">Sign Up</Button>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
-                    <Button size="sm" variant="outline" className="w-full text-slate-950 mt-1">Sign In</Button>
-                  </Link>
-                </li>
+                {!isAuthenticated ? (
+                  <>
+                    <li>
+                      <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
+                        <Button size="sm" className="w-full mt-3">
+                          Sign Up
+                        </Button>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="w-full text-slate-950 mt-1"
+                        >
+                          Sign In
+                        </Button>
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                        <Button
+                          size="sm"
+                          className="w-full mt-3 bg-yellow-400 text-black hover:bg-yellow-500"
+                        >
+                          {user?.userName || "My Account"}
+                        </Button>
+                      </Link>
+                    </li>
+                    <li>
+                      <button
+                        onClick={() => {
+                          logout();
+                          setMobileMenuOpen(false);
+                          window.location.href = "/";
+                        }}
+                        className="w-full mt-3 bg-red-500 text-white py-2 rounded hover:bg-red-600 font-bold"
+                      >
+                        Log Out
+                      </button>
+                    </li>
+                  </>
+                )}
               </ul>
             </nav>
           </div>

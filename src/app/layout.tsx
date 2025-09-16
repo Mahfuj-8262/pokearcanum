@@ -6,6 +6,13 @@ import type { ReactNode } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+import { AuthProvider } from "@/context/AuthContext";
+
+export const metadata: Metadata = {
+  title: "Pokearcanumbe",
+  description: "Trading card marketplace",
+};
+
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -17,11 +24,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap" rel="stylesheet"></link>
       </head>
       <body className="bg-gray-100">
-        <Header />
-        <main className="bg-gradient-to-br from-zinc-700 via-zinc-500 to-zinc-400" style={{
-            fontFamily: "'Baloo 2', 'Comic Sans MS', cursive, sans-serif",
-          }}>{children}</main>
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <main className="bg-gradient-to-br from-zinc-700 via-zinc-500 to-zinc-400" style={{
+              fontFamily: "'Baloo 2', 'Comic Sans MS', cursive, sans-serif",
+            }}>{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

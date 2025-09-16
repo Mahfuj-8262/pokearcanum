@@ -1,269 +1,201 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { FaUpload, FaCheckCircle } from "react-icons/fa";
+import { useState } from "react";
+import { postMarketplace } from "@/lib/api";
 
-type CardFormProps = {
-  onSubmit?: (data: any) => void;
-  initialData?: Partial<CardInput>;
-  submitText?: string;
-};
-
-type CardInput = {
-  name: string;
-  type: string;
-  rarity: string;
-  hp: number;
-  description?: string;
-  imageFile?: File | null;
-};
-
-const typeOptions = [
-  "Fire", "Water", "Electric", "Grass", "Psychic",
-  "Fighting", "Dark", "Steel", "Fairy", "Dragon"
-];
-const rarityOptions = [
-  "Common", "Uncommon", "Rare", "Ultra Rare", "Secret Rare"
-];
-
-const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
-
-export default function CardForm({
-  onSubmit,
-  initialData = {},
-  submitText = "Add Card"
-}: CardFormProps) {
-  const [form, setForm] = useState<CardInput>({
-    name: initialData.name || "",
-    type: initialData.type || "",
-    rarity: initialData.rarity || "",
-    hp: initialData.hp || 0,
-    description: initialData.description || "",
-    imageFile: null,
+export default function CardForm() {
+  const [form, setForm] = useState({
+    cardName: "",
+    hp: 0,
+    rarity: "",
+    type: "",
+    description: "",
+    price: 0,
+    status: 1, // Available
   });
 
-  const [imageError, setImageError] = useState<string | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  function handleChange(
+  const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) {
-    const { name, value } = e.target;
-    setForm(f => ({
-      ...f,
-      [name]: name === "hp" ? Number(value) : value,
-    }));
-  }
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  function handleHpChange(e: React.ChangeEvent<HTMLInputElement>) {
-    // Only allow number on input (without spinner)
-    const rawValue = e.target.value.replace(/[^0-9]/g, "");
-    setForm(f => ({
-      ...f,
-      hp: rawValue === "" ? 0 : Number(rawValue),
-    }));
-  }
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length) {
+      setImageFile(e.target.files[0]);
+    }
+  };
 
-  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setImageError(null);
-    const file = e.target.files?.[0];
-    if (!file) {
-      setForm(f => ({ ...f, imageFile: null }));
-      setPreviewUrl(null);
-      return;
-    }
-    if (!file.type.match(/^image\/(jpeg|png|jpg)$/i)) {
-      setImageError("Only JPG/PNG images are allowed.");
-      setForm(f => ({ ...f, imageFile: null }));
-      setPreviewUrl(null);
-      return;
-    }
-    if (file.size > MAX_IMAGE_SIZE) {
-      setImageError("Image is too large (max 2MB).");
-      setForm(f => ({ ...f, imageFile: null }));
-      setPreviewUrl(null);
-      return;
-    }
-    setForm(f => ({ ...f, imageFile: file }));
-    setPreviewUrl(URL.createObjectURL(file));
-  }
-
-  function handleFormSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
-
-    if (!form.name || !form.type || !form.rarity || !form.hp) {
-      setSubmitting(false);
-      alert("Fill all required fields!");
-      return;
-    }
-    if (!form.imageFile) {
-      setSubmitting(false);
-      setImageError("Image is required.");
+    if (!imageFile) {
+      setMsg("❌ Please select an image to upload.");
       return;
     }
 
-    if (onSubmit) onSubmit(form);
+    try {
+      setLoading(true);
+      setMsg(null);
 
-    setTimeout(() => {
-      setSubmitting(false);
-      alert(`(Demo) Card "${form.name}" added!`);
-    }, 1200);
-  }
+      // 1️⃣ Upload file to backend → which puts into Azure Blob
+      const fileData = new FormData();
+      fileData.append("file", imageFile);
 
-  function clearImage() {
-    setForm(f => ({ ...f, imageFile: null }));
-    setPreviewUrl(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-    setImageError(null);
-  }
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/Marketplace/upload`,
+        {
+          method: "POST",
+          body: fileData,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error("Image upload failed.");
+      const { url } = await res.json(); // backend returns { url: blobUrl }
+
+      // 2️⃣ Send card + marketplace data using `postMarketplace`
+      await postMarketplace({
+        ...form,
+        link: url, // ✅ use Azure Blob URL
+      });
+
+      setMsg("✅ Card successfully added to your inventory and marketplace.");
+      // Reset form
+      setForm({
+        cardName: "",
+        hp: 0,
+        rarity: "",
+        type: "",
+        description: "",
+        price: 0,
+        status: 1,
+      });
+      setImageFile(null);
+    } catch (err: any) {
+      console.error(err);
+      setMsg(`❌ Failed: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <form
-      className="bg-white/95 p-8 rounded-lg shadow-xl w-full max-w-lg border border-yellow-200 flex flex-col gap-5"
-      onSubmit={handleFormSubmit}
+      onSubmit={handleSubmit}
+      className="w-full flex flex-col gap-4"
       encType="multipart/form-data"
     >
-      <h2 className="font-extrabold text-2xl mb-2 text-yellow-700">Add New Card</h2>
-      
-      <div>
-        <label htmlFor="card-name" className="block font-semibold mb-1 text-yellow-700">Card Name <span className="text-red-500">*</span></label>
-        <input
-          id="card-name"
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          required
-          placeholder="Charizard"
-          className="rounded px-4 py-2 border border-yellow-200 focus:border-yellow-500 text-lg w-full"
-          disabled={submitting}
-        />
-      </div>
+      {/* Card Name */}
+      <input
+        type="text"
+        name="cardName"
+        placeholder="Card Name"
+        value={form.cardName}
+        onChange={handleChange}
+        required
+        className="border px-3 py-2 rounded"
+      />
 
-      <div>
-        <label htmlFor="card-type" className="block font-semibold mb-1 text-yellow-700">Type <span className="text-red-500">*</span></label>
-        <select
-          id="card-type"
-          name="type"
-          value={form.type}
-          onChange={handleChange}
-          required
-          className="rounded px-4 py-2 border border-yellow-200 focus:border-yellow-500 text-lg w-full"
-          disabled={submitting}
+      {/* HP */}
+      <input
+        type="number"
+        name="hp"
+        placeholder="HP"
+        value={form.hp}
+        onChange={handleChange}
+        required
+        className="border px-3 py-2 rounded"
+      />
+
+      {/* Rarity */}
+      <select
+        name="rarity"
+        value={form.rarity}
+        onChange={handleChange}
+        required
+        className="border px-3 py-2 rounded"
+      >
+        <option value="">Select Rarity</option>
+        <option>Common</option>
+        <option>Uncommon</option>
+        <option>Rare</option>
+        <option>Ultra Rare</option>
+        <option>Secret Rare</option>
+      </select>
+
+      {/* Type */}
+      <select
+        name="type"
+        value={form.type}
+        onChange={handleChange}
+        required
+        className="border px-3 py-2 rounded"
+      >
+        <option value="">Select Type</option>
+        <option>Fire</option>
+        <option>Water</option>
+        <option>Electric</option>
+        <option>Grass</option>
+        <option>Psychic</option>
+        <option>Dark</option>
+        <option>Steel</option>
+        <option>Fairy</option>
+        <option>Dragon</option>
+      </select>
+
+      {/* Description */}
+      <textarea
+        name="description"
+        placeholder="Card description / notes"
+        value={form.description}
+        onChange={handleChange}
+        rows={3}
+        className="border px-3 py-2 rounded"
+      />
+
+      {/* Price */}
+      <input
+        type="number"
+        name="price"
+        placeholder="Listing Price"
+        value={form.price}
+        onChange={handleChange}
+        required
+        className="border px-3 py-2 rounded"
+      />
+
+      {/* File Upload */}
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        required
+        className="border px-3 py-2 rounded"
+      />
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-5 py-2 rounded transition"
+      >
+        {loading ? "Adding..." : "Add Card"}
+      </button>
+
+      {msg && (
+        <p
+          className={`text-sm text-center mt-2 ${
+            msg.startsWith("✅") ? "text-green-600" : "text-red-600"
+          }`}
         >
-          <option value="">Select Type</option>
-          {typeOptions.map(option => (
-            <option value={option} key={option}>{option}</option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <label htmlFor="card-rarity" className="block font-semibold mb-1 text-yellow-700">Rarity <span className="text-red-500">*</span></label>
-        <select
-          id="card-rarity"
-          name="rarity"
-          value={form.rarity}
-          onChange={handleChange}
-          required
-          className="rounded px-4 py-2 border border-yellow-200 focus:border-yellow-500 text-lg w-full"
-          disabled={submitting}
-        >
-          <option value="">Select Rarity</option>
-          {rarityOptions.map(option => (
-            <option value={option} key={option}>{option}</option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <label htmlFor="card-hp" className="block font-semibold mb-1 text-yellow-700">HP (Hit Points) <span className="text-red-500">*</span></label>
-        <input
-          id="card-hp"
-          name="hp"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          value={form.hp === 0 ? "" : form.hp}
-          onChange={handleHpChange}
-          required
-          type="text"
-          placeholder="e.g. 120"
-          className="rounded px-4 py-2 border border-yellow-200 focus:border-yellow-500 text-lg w-full appearance-none"
-          disabled={submitting}
-          autoComplete="off"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="card-description" className="block font-semibold mb-1 text-yellow-700">Description/Notes</label>
-        <textarea
-          id="card-description"
-          name="description"
-          value={form.description}
-          onChange={handleChange}
-          placeholder="Description/Notes (optional)"
-          rows={3}
-          className="rounded px-4 py-2 border border-yellow-200 focus:border-yellow-500 text-lg resize-y w-full"
-          disabled={submitting}
-        />
-      </div>
-
-      <div>
-        <label className="block font-semibold mb-1 text-yellow-700">
-          Card Image <span className="text-red-500">*</span>
-        </label>
-        <div className="flex items-center gap-3">
-          <label
-            htmlFor="card-image"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-yellow-400 text-white font-bold cursor-pointer shadow hover:bg-yellow-500 transition border-2 border-yellow-500"
-          >
-            <FaUpload />
-            {form.imageFile ? "Change Image" : "Upload Image"}
-          </label>
-          <input
-            ref={fileInputRef}
-            id="card-image"
-            type="file"
-            accept="image/jpeg,image/jpg,image/png"
-            style={{ display: "none" }}
-            onChange={handleImageChange}
-            disabled={submitting}
-          />
-          {form.imageFile &&
-            <button
-              type="button"
-              className="ml-2 px-2 py-1 text-xs bg-gray-200 border border-gray-400 rounded hover:bg-red-100 text-red-600"
-              onClick={clearImage}
-              disabled={submitting}
-            >
-              Remove
-            </button>
-          }
-        </div>
-        {previewUrl && (
-          <div className="flex items-center gap-2 mt-2">
-            <img
-              src={previewUrl}
-              alt="Card Preview"
-              className="w-24 h-32 object-cover rounded border border-yellow-300 shadow"
-            />
-            <span className="flex items-center gap-1 text-green-600 font-semibold">
-              <FaCheckCircle /> Ready
-            </span>
-          </div>
-        )}
-        {imageError &&
-          <div className="text-red-600 text-sm mt-1">{imageError}</div>
-        }
-      </div>
-
-      <Button type="submit" className="w-full text-lg" disabled={submitting}>
-        {submitting ? "Adding..." : submitText}
-      </Button>
+          {msg}
+        </p>
+      )}
     </form>
   );
 }

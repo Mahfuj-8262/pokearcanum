@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -14,6 +13,9 @@ import Link from "next/link";
 
 import Image from "next/image";
 import logo from "@/../public/your-logo.png";
+
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 // Pokeball icon as SVG (as explained earlier)
 
@@ -56,10 +58,24 @@ export default function AuthForm({ type = "signup" }: AuthFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const { login, register: registerUser } = useAuth();
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
   async function onSubmit(data: any) {
-    // Simulate signup
-    await new Promise(r => setTimeout(r, 1000));
-    alert(JSON.stringify(data, null, 2)); // Replace this with real signup logic
+    setError(null);
+    try {
+      if (type === "signup") {
+        await registerUser(data.name, data.email, data.password);
+        router.push("/sign-in?registered=1");
+      } else {
+        await login(data.email, data.password);
+        router.push("/");
+      }
+    } catch (err: any) {
+      console.error("Auth error: ", err);
+      setError(err.message || "Something went wrong. Please try again.");
+    }
   }
 
   return (
@@ -270,6 +286,8 @@ export default function AuthForm({ type = "signup" }: AuthFormProps) {
         </div>
       )}
 
+
+      {error && <p className="text-sm text-red-600 mt-1 text-center">{error}</p>}
       <Button
         type="submit"
         variant="default"
