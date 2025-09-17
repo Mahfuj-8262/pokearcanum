@@ -1,4 +1,10 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
+const IS_PROD = process.env.NODE_ENV === "production";
+
+const API_URL = IS_PROD ? "" : (process.env.NEXT_PUBLIC_API_URL as string);
+
+if (!API_URL && !IS_PROD) {
+  throw new Error("❌ NEXT_PUBLIC_API_URL is not set in development");
+}
 
 let accessToken: string | null = null;
 let refreshToken: string | null =
@@ -16,7 +22,11 @@ const authHeaders = (): Record<string, string> => {
   return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
 };
 
-const apiRequest = async (endpoint: string, options: RequestInit = {}, retry = true) => {
+const apiRequest = async (
+  endpoint: string,
+  options: RequestInit = {},
+  retry = true
+) => {
   const baseHeaders: Record<string, string> = {
     "Content-Type": "application/json",
     ...authHeaders(),
@@ -56,6 +66,7 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}, retry = t
   return res.json().catch(() => ({}));
 };
 
+// ---------- Auth endpoints ----------
 export const register = (userName: string, email: string, password: string) =>
   apiRequest("/User/register", {
     method: "POST",
@@ -106,6 +117,7 @@ export const updateProfile = (data: {
     body: JSON.stringify(data),
   });
 
+// ---------- Cards ----------
 export const getCards = () => apiRequest("/Card");
 export const getCardById = (id: number) => apiRequest(`/Card/${id}`);
 export const postCard = (card: {
@@ -125,6 +137,7 @@ export const updateCard = (id: number, card: any) =>
 export const deleteCard = (id: number) =>
   apiRequest(`/Card/${id}`, { method: "DELETE" });
 
+// ---------- Marketplace ----------
 export const getAllMarketplaces = () => apiRequest("/Marketplace/all");
 export const getMarketplace = () => apiRequest("/Marketplace");
 export const getMarketplaceById = (id: number) =>
@@ -143,7 +156,10 @@ export const postMarketplace = (listing: {
     method: "POST",
     body: JSON.stringify(listing),
   });
-export const updateMarketplace = (id: number, data: { price: number; status: number }) =>
+export const updateMarketplace = (
+  id: number,
+  data: { price: number; status: number }
+) =>
   apiRequest(`/Marketplace/${id}`, {
     method: "PUT",
     body: JSON.stringify(data),
@@ -151,15 +167,183 @@ export const updateMarketplace = (id: number, data: { price: number; status: num
 export const deleteMarketplace = (id: number) =>
   apiRequest(`/Marketplace/${id}`, { method: "DELETE" });
 
+// ---------- Trades ----------
 export const getTrades = () => apiRequest("/Trade");
 export const getTradeById = (id: number) => apiRequest(`/Trade/${id}`);
 export const postTrade = (marketplaceId: number) =>
   apiRequest("/Trade", { method: "POST", body: JSON.stringify({ marketplaceId }) });
 
+// ---------- Dashboard ----------
 export const getUserCount = () => apiRequest("/User/count");
 export const getTradeStats = () => apiRequest("/Trade/stats");
 export const getRecentTrades = () => apiRequest("/Trade/recent");
 export const getTopCards = () => apiRequest("/Marketplace/top");
+
+
+// const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
+
+// let accessToken: string | null = null;
+// let refreshToken: string | null =
+//   typeof window !== "undefined" ? localStorage.getItem("refreshToken") : null;
+
+// export const setTokens = (tokens: { accessToken: string; refreshToken: string }) => {
+//   accessToken = tokens.accessToken;
+//   refreshToken = tokens.refreshToken;
+//   if (typeof window !== "undefined") {
+//     localStorage.setItem("refreshToken", refreshToken);
+//   }
+// };
+
+// const authHeaders = (): Record<string, string> => {
+//   return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
+// };
+
+// const apiRequest = async (endpoint: string, options: RequestInit = {}, retry = true) => {
+//   const baseHeaders: Record<string, string> = {
+//     "Content-Type": "application/json",
+//     ...authHeaders(),
+//   };
+
+//   if (options.headers) {
+//     if (options.headers instanceof Headers) {
+//       options.headers.forEach((value, key) => {
+//         baseHeaders[key] = value;
+//       });
+//     } else if (Array.isArray(options.headers)) {
+//       options.headers.forEach(([key, value]) => {
+//         baseHeaders[key] = value;
+//       });
+//     } else {
+//       Object.assign(baseHeaders, options.headers);
+//     }
+//   }
+
+//   let res = await fetch(`${API_URL}${endpoint}`, {
+//     ...options,
+//     headers: baseHeaders,
+//   });
+
+//   if (res.status === 401 && retry && refreshToken) {
+//     const refreshed = await refreshAccessToken();
+//     if (refreshed) {
+//       return apiRequest(endpoint, options, false);
+//     }
+//   }
+
+//   if (!res.ok) {
+//     const errText = await res.text();
+//     throw new Error(errText || res.statusText);
+//   }
+
+//   return res.json().catch(() => ({}));
+// };
+
+// export const register = (userName: string, email: string, password: string) =>
+//   apiRequest("/User/register", {
+//     method: "POST",
+//     body: JSON.stringify({ userName, email, password }),
+//   });
+
+// export const login = async (email: string, password: string) => {
+//   const res = await apiRequest("/User/login", {
+//     method: "POST",
+//     body: JSON.stringify({ email, password }),
+//   });
+//   setTokens(res);
+//   return res;
+// };
+
+// export const refreshAccessToken = async () => {
+//   if (!refreshToken) return null;
+//   try {
+//     const res = await fetch(`${API_URL}/User/refresh`, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ refreshToken }),
+//     });
+//     if (!res.ok) return null;
+//     const data = await res.json();
+//     setTokens(data);
+//     return data;
+//   } catch {
+//     return null;
+//   }
+// };
+
+// export const logout = () => {
+//   accessToken = null;
+//   refreshToken = null;
+//   if (typeof window !== "undefined") {
+//     localStorage.removeItem("refreshToken");
+//   }
+// };
+
+// export const updateProfile = (data: {
+//   userName: string;
+//   currentPassword: string;
+//   newPassword: string;
+// }) =>
+//   apiRequest("/User/profile", {
+//     method: "PUT",
+//     body: JSON.stringify(data),
+//   });
+
+// export const getCards = () => apiRequest("/Card");
+// export const getCardById = (id: number) => apiRequest(`/Card/${id}`);
+// export const postCard = (card: {
+//   cardName: string;
+//   hp: number;
+//   rarity: string;
+//   type: string;
+//   link: string;
+//   description?: string;
+// }) =>
+//   apiRequest("/Card", {
+//     method: "POST",
+//     body: JSON.stringify(card),
+//   });
+// export const updateCard = (id: number, card: any) =>
+//   apiRequest(`/Card/${id}`, { method: "PUT", body: JSON.stringify(card) });
+// export const deleteCard = (id: number) =>
+//   apiRequest(`/Card/${id}`, { method: "DELETE" });
+
+// export const getAllMarketplaces = () => apiRequest("/Marketplace/all");
+// export const getMarketplace = () => apiRequest("/Marketplace");
+// export const getMarketplaceById = (id: number) =>
+//   apiRequest(`/Marketplace/${id}`);
+// export const postMarketplace = (listing: {
+//   cardName: string;
+//   hp: number;
+//   rarity: string;
+//   type: string;
+//   link: string;
+//   description: string;
+//   price: number;
+//   status: number;
+// }) =>
+//   apiRequest("/Marketplace", {
+//     method: "POST",
+//     body: JSON.stringify(listing),
+//   });
+// export const updateMarketplace = (id: number, data: { price: number; status: number }) =>
+//   apiRequest(`/Marketplace/${id}`, {
+//     method: "PUT",
+//     body: JSON.stringify(data),
+//   });
+// export const deleteMarketplace = (id: number) =>
+//   apiRequest(`/Marketplace/${id}`, { method: "DELETE" });
+
+// export const getTrades = () => apiRequest("/Trade");
+// export const getTradeById = (id: number) => apiRequest(`/Trade/${id}`);
+// export const postTrade = (marketplaceId: number) =>
+//   apiRequest("/Trade", { method: "POST", body: JSON.stringify({ marketplaceId }) });
+
+// export const getUserCount = () => apiRequest("/User/count");
+// export const getTradeStats = () => apiRequest("/Trade/stats");
+// export const getRecentTrades = () => apiRequest("/Trade/recent");
+// export const getTopCards = () => apiRequest("/Marketplace/top");
+
+// //////////////////////////////////////////////
 
 
 // // src/lib/api.ts
