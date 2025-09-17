@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { RotatableCard } from "@/components/RotatableCard";
 
 // Poster can be just a string or an object with optional caption
@@ -67,13 +66,18 @@ export default function PosterCarousel({
   return (
     <section className="w-full m-0 p-0 relative">
       <div className="relative w-full rounded-none h-[340px] xs:h-[420px] sm:h-[530px] md:h-[670px] lg:h-[800px] overflow-hidden shadow-lg">
-        <Image
+        <img
           src={currPoster.image}
           alt={`Poster ${curr + 1}`}
-          fill
+          draggable={false}
           className="object-cover object-center w-full h-full transition-all duration-700"
-          priority
-          sizes="100vw"
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            top: 0,
+            left: 0
+          }}
         />
 
         {/* ---- Left-side Caption/Text Overlay ---- */}

@@ -1,6 +1,7 @@
+"use client";
+
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useMotionValue, animate } from "framer-motion";
-import Image from "next/image";
 
 export interface RotatableCardProps {
   front: string;
@@ -146,16 +147,19 @@ export const RotatableCard: React.FC<RotatableCardProps> = ({
               pointerEvents: "none",
             }}
           >
-            <Image
+            <img
               src={front}
               alt="Front of card"
-              fill
+              draggable={false}
               style={{
                 objectFit: "cover",
                 borderRadius: "12px",
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                top: 0,
+                left: 0
               }}
-              draggable={false}
-              priority
             />
           </div>
           {/* BACK */}
@@ -171,16 +175,19 @@ export const RotatableCard: React.FC<RotatableCardProps> = ({
               pointerEvents: "none",
             }}
           >
-            <Image
+            <img
               src={back}
               alt="Back of card"
-              fill
+              draggable={false}
               style={{
                 objectFit: "cover",
                 borderRadius: "12px",
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                top: 0,
+                left: 0
               }}
-              draggable={false}
-              priority
             />
           </div>
         </motion.div>

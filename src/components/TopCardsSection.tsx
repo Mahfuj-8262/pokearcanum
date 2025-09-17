@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getTopCards } from "@/lib/api";
@@ -46,7 +45,7 @@ export default function TopCardsSection() {
           relative 
           flex gap-4 md:gap-6 
           overflow-x-auto 
-          md:grid md:grid-cols-5 md:gap-6
+          md:grid md:grid-cols-5
           scroll-smooth
           pb-2 md:pb-0
           "
@@ -71,13 +70,10 @@ export default function TopCardsSection() {
               }}
             >
               {/* Card Image */}
-              <Image
+              <img
                 src={card.imageUrl}
                 alt={card.name}
-                width={180}
-                height={230}
                 className="w-[86%] max-w-[185px] h-auto aspect-[3/4] object-contain mb-3"
-                priority
               />
 
               {/* Card Name */}
