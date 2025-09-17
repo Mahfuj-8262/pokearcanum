@@ -10,8 +10,8 @@ import { Luckiest_Guy } from "next/font/google";
 const luckiestGuy = Luckiest_Guy({ subsets: ["latin"], weight: "400" });
 
 const marketplacePosters = [
-  "/marketplacePoster/poster1.png",
-  "/marketplacePoster/poster2.jpg",
+  "https://mafustorage.blob.core.windows.net/pokearcanumblob/marketplace-posters/poster1.png",
+  "https://mafustorage.blob.core.windows.net/pokearcanumblob/marketplace-posters/poster2.jpg",
 ];
 
 const marketplaceCaption = (
@@ -98,8 +98,8 @@ export default function MarketplacePage() {
         <PosterCarousel
           posters={marketplacePosters}
           rotatingCard={{
-            front: "/marketPlaceRotating/front.png",
-            back: "/marketPlaceRotating/back.png",
+            front: "https://mafustorage.blob.core.windows.net/pokearcanumblob/marketplace-rotating/front.png",
+            back: "https://mafustorage.blob.core.windows.net/pokearcanumblob/marketplace-rotating/back.png",
           }}
           showRotatingCard={true}
           caption={marketplaceCaption}

@@ -11,14 +11,10 @@ import { Luckiest_Guy } from "next/font/google";
 const luckiestGuy = Luckiest_Guy({ subsets: ["latin"], weight: "400" });
 
 const homePosters = [
-  // "/posters/poster1.png",
-  // "/posters/poster2.jpg",
-  // "/posters/poster3.png",
-  // "/posters/poster4.jpg"
-  { image: "/posters/poster1.png", caption: "Legendary Collection" },
-  { image: "/posters/poster2.jpg", caption: "Ultra Rare Charizard!" },
-  { image: "/posters/poster3.png" }, // No caption, will fallback
-  "/posters/poster4.jpg", // String is OK, just no caption
+  "https://mafustorage.blob.core.windows.net/pokearcanumblob/homepage-posters/poster1.png",
+  "https://mafustorage.blob.core.windows.net/pokearcanumblob/homepage-posters/poster2.jpg",
+  "https://mafustorage.blob.core.windows.net/pokearcanumblob/homepage-posters/poster3.png",
+  "https://mafustorage.blob.core.windows.net/pokearcanumblob/homepage-posters/poster4.jpg",
 ];
 
 const customCaption = (
@@ -97,8 +93,8 @@ export default function HomePage() {
       <PosterCarousel 
         posters={homePosters}
         rotatingCard={{
-            front: "/rotating/pikachu.png",
-            back: "/rotating/back.png"
+            front: "https://mafustorage.blob.core.windows.net/pokearcanumblob/rotating-homepage/pikachu.png",
+            back: "https://mafustorage.blob.core.windows.net/pokearcanumblob/rotating-homepage/back.png"
           }}
           showRotatingCard={true}  
           

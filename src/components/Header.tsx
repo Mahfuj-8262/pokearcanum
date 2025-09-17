@@ -25,7 +25,7 @@ export default function Header() {
           href="/"
           className="flex items-center gap-2 font-extrabold text-2xl text-amber-300 tracking-tight mr-2 md:mr-4 xl:mr-6"
         >
-          <Image src={logo} alt="PokéArcanum" height={48} />
+          <img src="https://mafustorage.blob.core.windows.net/pokearcanumblob/pokearcanum-logo/your-logo.png" alt="PokéArcanum" className="h-12 w-auto" />
           <span>PokéArcanum</span>
         </Link>
 
