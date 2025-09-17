@@ -1,8 +1,7 @@
 // src/lib/api.ts
 // Centralized API client for .NET backend
 
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL as string;// || "http://localhost:5278/api"; // backend base URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";// || "http://localhost:5278/api"; // backend base URL
 
 if (!API_URL) {
   console.error("❌ API_URL is not set. Did you create .env.local?");

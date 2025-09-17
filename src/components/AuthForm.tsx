@@ -12,7 +12,6 @@ import { useState } from "react";
 import Link from "next/link";
 
 import Image from "next/image";
-import logo from "@/../public/your-logo.png";
 
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
@@ -98,7 +97,7 @@ export default function AuthForm({ type = "signup" }: AuthFormProps) {
     >
       <div className="flex flex-col items-center mb-2">
         <Image
-          src= {logo}
+          src= "https://mafustorage.blob.core.windows.net/pokearcanumblob/pokearcanum-logo/your-logo.png"
           alt="PokeArcanum Logo"
           width={90}
           height={90}

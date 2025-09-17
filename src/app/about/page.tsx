@@ -2,14 +2,13 @@
 "use client";
 
 import Image from "next/image";
-import logo from "@/../public/your-logo.png"
 
 export default function AboutPage() {
   return (
     <div className="max-w-3xl mx-auto py-16 px-4 sm:px-8">
       <div className="mb-8 text-center">
         <Image
-          src={logo}
+          src= "https://mafustorage.blob.core.windows.net/pokearcanumblob/pokearcanum-logo/your-logo.png"
           alt="Pokémon Card Trading Logo"
           width={200}
           height={100}

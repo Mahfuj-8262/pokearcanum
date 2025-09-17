@@ -1,9 +1,7 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import logo from "@/../public/your-logo.png"; 
 import { useAuth } from "@/context/AuthContext";
 
 const navLinks = [

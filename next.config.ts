@@ -5,7 +5,13 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ["mafustorage.blob.core.windows.net"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "mafustorage.blob.core.windows.net",
+        pathname: "/**"
+      }
+    ],
   },
 };
 
