@@ -1,7 +1,4 @@
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL?.startsWith("http")
-    ? process.env.NEXT_PUBLIC_API_URL
-    : `https://${process.env.NEXT_PUBLIC_API_URL || ""}`;
+const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
 let accessToken: string | null = null;
 let refreshToken: string | null =
