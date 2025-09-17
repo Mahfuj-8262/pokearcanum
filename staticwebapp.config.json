@@ -1,0 +1,11 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html"
+  },
+  "routes": [
+    {
+    "route": "/api/*",
+    "rewrite": "https://pokearcanumbe-f7f9dnazeffebph9.southeastasia-01.azurewebsites.net/api/*"
+    }
+  ]
+}
