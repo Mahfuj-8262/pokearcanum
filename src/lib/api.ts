@@ -6,7 +6,7 @@
 //   throw new Error("❌ NEXT_PUBLIC_API_URL is not set in development");
 // }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
+const API_URL = "https://pokearcanumbe-f7f9dnazeffebph9.southeastasia-01.azurewebsites.net/api";//process.env.NEXT_PUBLIC_API_URL as string;
 
 
 let accessToken: string | null = null;
