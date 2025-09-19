@@ -1,10 +1,13 @@
-const IS_PROD = process.env.NODE_ENV === "production";
+// const IS_PROD = process.env.NODE_ENV === "production";
 
-const API_URL = IS_PROD ? "" : (process.env.NEXT_PUBLIC_API_URL as string);
+// const API_URL = IS_PROD ? "" : (process.env.NEXT_PUBLIC_API_URL as string);
 
-if (!API_URL && !IS_PROD) {
-  throw new Error("❌ NEXT_PUBLIC_API_URL is not set in development");
-}
+// if (!API_URL && !IS_PROD) {
+//   throw new Error("❌ NEXT_PUBLIC_API_URL is not set in development");
+// }
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
+
 
 let accessToken: string | null = null;
 let refreshToken: string | null =
