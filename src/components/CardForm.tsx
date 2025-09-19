@@ -30,6 +30,61 @@ export default function CardForm() {
     }
   };
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!imageFile) {
+  //     setMsg("❌ Please select an image to upload.");
+  //     return;
+  //   }
+
+  //   try {
+  //     setLoading(true);
+  //     setMsg(null);
+
+  //     // 1️⃣ Upload file to backend → which puts into Azure Blob
+  //     const fileData = new FormData();
+  //     fileData.append("file", imageFile);
+
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/Marketplace`,
+  //       {
+  //         method: "POST",
+  //         body: fileData,
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
+  //         },
+  //       }
+  //     );
+
+  //     if (!res.ok) throw new Error("Image upload failed.");
+  //     const { url } = await res.json(); // backend returns { url: blobUrl }
+
+  //     // 2️⃣ Send card + marketplace data using `postMarketplace`
+  //     await postMarketplace({
+  //       ...form,
+  //       link: url, // ✅ use Azure Blob URL
+  //     });
+
+  //     setMsg("✅ Card successfully added to your inventory and marketplace.");
+  //     // Reset form
+  //     setForm({
+  //       cardName: "",
+  //       hp: 0,
+  //       rarity: "",
+  //       type: "",
+  //       description: "",
+  //       price: 0,
+  //       status: 1,
+  //     });
+  //     setImageFile(null);
+  //   } catch (err: any) {
+  //     console.error(err);
+  //     setMsg(`❌ Failed: ${err.message}`);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!imageFile) {
@@ -41,32 +96,35 @@ export default function CardForm() {
       setLoading(true);
       setMsg(null);
 
-      // 1️⃣ Upload file to backend → which puts into Azure Blob
-      const fileData = new FormData();
-      fileData.append("file", imageFile);
+      const formData = new FormData();
+      formData.append("CardName", form.cardName);
+      formData.append("Hp", form.hp.toString());
+      formData.append("Rarity", form.rarity);
+      formData.append("Type", form.type);
+      formData.append("Description", form.description);
+      formData.append("Price", form.price.toString());
+      //formData.append("Status", form.status.toString());
+      formData.append("imageFile", imageFile); // must match controller param name
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/Marketplace`,
         {
           method: "POST",
-          body: fileData,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
+            // ❌ Do NOT set Content-Type, the browser will handle it for multipart
           },
+          body: formData,
         }
       );
 
-      if (!res.ok) throw new Error("Image upload failed.");
-      const { url } = await res.json(); // backend returns { url: blobUrl }
+      if (!res.ok) {
+        throw new Error(await res.text());
+      }
 
-      // 2️⃣ Send card + marketplace data using `postMarketplace`
-      await postMarketplace({
-        ...form,
-        link: url, // ✅ use Azure Blob URL
-      });
+      await res.json();
 
       setMsg("✅ Card successfully added to your inventory and marketplace.");
-      // Reset form
       setForm({
         cardName: "",
         hp: 0,
