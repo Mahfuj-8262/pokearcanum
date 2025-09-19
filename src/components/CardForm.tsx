@@ -46,7 +46,7 @@ export default function CardForm() {
       fileData.append("file", imageFile);
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/Marketplace/upload`,
+        `${process.env.NEXT_PUBLIC_API_URL}/Marketplace`,
         {
           method: "POST",
           body: fileData,
