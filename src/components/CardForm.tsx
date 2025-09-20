@@ -107,7 +107,8 @@ export default function CardForm() {
       formData.append("imageFile", imageFile); // must match controller param name
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/Marketplace`,
+        //`${}/Marketplace`,
+        `https://pokearcanumbe-f7f9dnazeffebph9.southeastasia-01.azurewebsites.net/api/Marketplace`,
         {
           method: "POST",
           headers: {
