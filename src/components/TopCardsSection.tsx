@@ -18,7 +18,6 @@ export default function TopCardsSection() {
     const fetchCards = async () => {
       try {
         const data = await getTopCards();
-        // Map backend Marketplace/Card model to frontend
         const mapped: TopCard[] = data.map((c: any) => ({
           id: c.id,
           name: c.card.cardName,
@@ -39,7 +38,6 @@ export default function TopCardsSection() {
           Top Cards
         </h2>
 
-        {/* Responsive Grid/Scroller */}
         <div
           className="
           relative 
@@ -69,14 +67,12 @@ export default function TopCardsSection() {
                 overflow: "hidden",
               }}
             >
-              {/* Card Image */}
               <img
                 src={card.imageUrl}
                 alt={card.name}
                 className="w-[86%] max-w-[185px] h-auto aspect-[3/4] object-contain mb-3"
               />
 
-              {/* Card Name */}
               <span
                 className="text-lg md:text-xl font-extrabold uppercase tracking-wider text-center w-full"
                 style={{
@@ -91,10 +87,8 @@ export default function TopCardsSection() {
                 {card.name}
               </span>
 
-              {/* Arrow overlay (Show only for last card) */}
               {idx === topCards.length - 1 && (
                 <div className="absolute top-0 right-0 h-full flex items-center pr-2 z-20">
-                  {/* Fading background */}
                   <div
                     className="absolute top-0 right-0 h-full w-28 md:w-32 pointer-events-none"
                     style={{
@@ -102,7 +96,6 @@ export default function TopCardsSection() {
                         "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.93) 66%, #fff 98%)",
                     }}
                   />
-                  {/* Arrow button */}
                   <Link
                     href="/marketplace"
                     className="flex flex-col items-center justify-center z-10"

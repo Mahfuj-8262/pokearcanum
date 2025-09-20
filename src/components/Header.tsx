@@ -88,7 +88,7 @@ export default function Header() {
         </ul>
 
 
-        {/* Hamburger button (mobile only) */}
+        {/* mobile only */}
         <button
           type="button"
           className="md:hidden inline-flex items-center justify-center p-2 rounded hover:bg-slate-500 transition"
@@ -102,12 +102,11 @@ export default function Header() {
           </svg>
         </button>
 
-        {/* MOBILE SIDEBAR-MENU */}
+        {/* Sidebar */}
         {mobileMenuOpen && (
           <div
             className={`fixed inset-0 z-40 md:hidden flex justify-end`}
           >
-            {/* Overlay with fade-in transition */}
             <div
               className={`absolute inset-0 bg-slate-950/70 transition-opacity duration-300`}
               style={{
@@ -117,9 +116,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             />
 
-            {/* Side Drawer with slide-in effect */}
             <nav
-              // We mount it always, but animate translateX for slide
               className={`relative bg-slate-700 w-60 h-full p-6 shadow-lg flex flex-col
                 transition-transform duration-300
                 ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"}
@@ -131,18 +128,15 @@ export default function Header() {
               }}
               onClick={e => e.stopPropagation()}
             >
-              {/* Close Button */}
               <button
                 className="self-end mb-6"
                 aria-label="Close menu"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {/* X icon */}
                 <svg className="h-8 w-8 text-slate-200" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              {/* Nav Links */}
               <ul className="flex-1 flex flex-col gap-4">
                 {navLinks.map(link => (
                   <li key={link.text}>

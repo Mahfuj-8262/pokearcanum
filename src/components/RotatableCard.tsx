@@ -11,7 +11,6 @@ export interface RotatableCardProps {
 }
 
 function clampTo180(angle: number) {
-  // Normalize angle to (-180, 180]
   return ((((angle + 180) % 360) + 360) % 360) - 180;
 }
 
@@ -26,10 +25,8 @@ export const RotatableCard: React.FC<RotatableCardProps> = ({
   const [isIdleSpinning, setIsIdleSpinning] = useState(true);
   const idleSpinRef = useRef<ReturnType<typeof requestAnimationFrame> | null>(null);
 
-  // For drag state
   const dragState = useRef<{ startX: number; startRotation: number } | null>(null);
 
-  // ----- Idle spinning logic -----
   useEffect(() => {
     if (!isIdleSpinning) {
       if (idleSpinRef.current) cancelAnimationFrame(idleSpinRef.current);
@@ -40,7 +37,6 @@ export const RotatableCard: React.FC<RotatableCardProps> = ({
     function tick(now: number) {
       const dt = now - last;
       last = now;
-      // 10 deg per second; adjust for frame time
       const degreesPerMs = 60 / 1000;
       rotation.set(rotation.get() + dt * degreesPerMs);
       idleSpinRef.current = requestAnimationFrame(tick);
@@ -50,17 +46,14 @@ export const RotatableCard: React.FC<RotatableCardProps> = ({
       if (idleSpinRef.current) cancelAnimationFrame(idleSpinRef.current);
       idleSpinRef.current = null;
     };
-    // eslint-disable-next-line
   }, [isIdleSpinning]);
 
-  // Pointer events and snap logic
   useEffect(() => {
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerup", handlePointerUp);
       if (idleSpinRef.current) cancelAnimationFrame(idleSpinRef.current);
     };
-    // eslint-disable-next-line
   }, []);
 
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -94,7 +87,7 @@ export const RotatableCard: React.FC<RotatableCardProps> = ({
       damping: 32,
       onComplete: () => {
         rotation.set(target);
-        setIsIdleSpinning(true); // Resume spin after snap
+        setIsIdleSpinning(true); 
       },
     });
 
@@ -135,7 +128,7 @@ export const RotatableCard: React.FC<RotatableCardProps> = ({
             position: "relative",
           }}
         >
-          {/* FRONT */}
+          {/* Front */}
           <div
             style={{
               backfaceVisibility: "hidden",
@@ -162,7 +155,7 @@ export const RotatableCard: React.FC<RotatableCardProps> = ({
               }}
             />
           </div>
-          {/* BACK */}
+          {/* back */}
           <div
             style={{
               backfaceVisibility: "hidden",
@@ -193,7 +186,7 @@ export const RotatableCard: React.FC<RotatableCardProps> = ({
         </motion.div>
       </motion.div>
 
-      {/* 360° SVG hint always below the card, in white */}
+      {/* 360 degree icon */}
       <div className="mt-2 flex flex-col items-center select-none opacity-90">
         <svg width="80" height="40" viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg">
           <text x="40" y="18" textAnchor="middle" fontSize="20" fontWeight="bold" fill="#fff">360°</text>

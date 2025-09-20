@@ -34,7 +34,7 @@ export default function TradesClient() {
   const [loading, setLoading] = useState(true);
 
   const searchParams = useSearchParams();
-  const tradeSuccess = searchParams.get("success"); // ✅ will now work properly
+  const tradeSuccess = searchParams.get("success");
 
   useEffect(() => {
     const fetchTrades = async () => {
@@ -56,11 +56,10 @@ export default function TradesClient() {
     <div className="max-w-4xl mx-auto rounded-xl shadow-xl bg-white/95 border border-indigo-100 p-8">
       <h1 className="text-3xl font-bold mb-7 text-indigo-900">Transaction History</h1>
 
-      {/* ✅ Success banner if redirected after buy */}
       {tradeSuccess && (
         <div className="mb-6 p-4 bg-emerald-100 border-l-4 border-emerald-600 rounded shadow">
           <p className="text-emerald-800 font-semibold">
-            ✅ Purchase Successful! The card has been added to your collection.
+            Purchase Successful! The card has been added to your collection.
           </p>
         </div>
       )}

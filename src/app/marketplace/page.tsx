@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import CardPreview, { CardPreviewProps } from "@/components/CardPreview";
 import PosterCarousel from "@/components/PosterCarousel";
-import { getMarketplace } from "@/lib/api"; // ✅ fetch DB results
+import { getMarketplace } from "@/lib/api";
 import { getAllMarketplaces } from "@/lib/api";
 
 import { Luckiest_Guy } from "next/font/google";
@@ -34,7 +34,6 @@ const marketplaceCaption = (
   </div>
 );
 
-// Filter buttons we'll support
 const filters = ["All", "Ultra Rare", "Rare Holo", "Common", "Electric"];
 const CARDS_PER_PAGE = 50;
 
@@ -49,7 +48,6 @@ export default function MarketplacePage() {
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        // ✅ Fetch from new endpoint
         const marketplaces = await getAllMarketplaces();
 
         const mappedCards: CardPreviewProps[] = marketplaces.map((m: any) => ({
@@ -71,7 +69,6 @@ export default function MarketplacePage() {
     fetchCards();
   }, []);
 
-  // Handle filter changes
   const handleFilter = (filter: string) => {
     setActiveFilter(filter);
     setCurrentPage(1);
@@ -87,13 +84,11 @@ export default function MarketplacePage() {
     }
   };
 
-  // Paginate visible cards
   const startIdx = (currentPage - 1) * CARDS_PER_PAGE;
   const visibleCards = filteredCards.slice(startIdx, startIdx + CARDS_PER_PAGE);
 
   return (
     <main className="min-h-screen w-full py-0 pb-12">
-      {/* Hero carousel */}
       <section className="w-full m-0 p-0">
         <PosterCarousel
           posters={marketplacePosters}
@@ -106,7 +101,6 @@ export default function MarketplacePage() {
         />
       </section>
 
-      {/* Filters */}
       <nav className="sticky top-0 z-10 bg-zinc-800/70 backdrop-blur border-b border-zinc-700 mb-8">
         <div className="max-w-5xl mx-auto flex gap-3 justify-center text-xs sm:text-sm font-semibold py-2">
           {filters.map((filter) => (
@@ -125,7 +119,6 @@ export default function MarketplacePage() {
         </div>
       </nav>
 
-      {/* Cards grid */}
       <div className="max-w-6xl w-full mx-auto px-2 sm:px-4">
         <h1 className="text-4xl font-extrabold mb-2 text-center text-yellow-300 drop-shadow tracking-tight">
           Pokémon Card Marketplace
@@ -152,7 +145,6 @@ export default function MarketplacePage() {
           </div>
         )}
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex justify-center mt-10 gap-2">
             {Array.from({ length: totalPages }).map((_, idx) => {

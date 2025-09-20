@@ -31,7 +31,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const decodeToken = (accessToken: string) => {
     const payload = JSON.parse(atob(accessToken.split(".")[1]));
-    // console.log("🔍 JWT Payload:", payload); // debug line
 
     return {
       id:
@@ -139,12 +138,11 @@ export const useAuth = () => {
 //       const restored = await refreshAccessToken();
 //       if (restored) {
 //         const { accessToken } = restored;
-//         // 📝 Extract user claims (id/email/username) from JWT
 //         const payload = JSON.parse(atob(accessToken.split(".")[1]));
 //         setUser({
 //           id: payload.nameid || payload.sub,
 //           email: payload.email,
-//           userName: payload.name,   // ✅ correct key
+//           userName: payload.name,
 //         });
 //       }
 //       setLoading(false);
@@ -158,7 +156,7 @@ export const useAuth = () => {
 //     setUser({
 //       id: payload.nameid || payload.sub,
 //       email: payload.email,
-//       userName: payload.name,   // ✅ correct key
+//       userName: payload.name,
 //     });
 //   };
 

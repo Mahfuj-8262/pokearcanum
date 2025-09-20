@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { FaFireAlt } from "react-icons/fa";
 
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { getMarketplace, getTrades } from "@/lib/api"; // ✅ include getTrades
+import { getMarketplace, getTrades } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 
 type Trade = {
@@ -27,13 +27,10 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // ✅ Fetch user cards (via marketplace)
         const marketplaces = await getMarketplace();
         setCardsOwned(marketplaces?.length ?? 0);
 
-        // ✅ Fetch user trades
         const trades = await getTrades();
-        // Sort by newest first, limit to last 3
         const sorted = trades
           .sort((a: Trade, b: Trade) => new Date(b.time).getTime() - new Date(a.time).getTime())
           .slice(0, 3);
@@ -71,7 +68,6 @@ export default function DashboardPage() {
             {/* LEFT COLUMN → stats + recent trades */}
             <div className="flex-1 flex flex-col gap-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {/* Cards Owned widget */}
                 <motion.div
                   layout
                   whileHover={{ scale: 1.04 }}
@@ -202,7 +198,6 @@ export default function DashboardPage() {
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
-//         // ✅ Fetch cards from marketplace API (user-specific)
 //         const marketplaces = await getMarketplace();
 //         setCardsOwned(marketplaces?.length ?? 0);
 //       } catch (err) {
@@ -234,19 +229,19 @@ export default function DashboardPage() {
 //                 href="/dashboard"
 //                 className="dashboard-nav-link text-indigo-200 font-bold"
 //               >
-//                 🏠 Dashboard
+//                 Dashboard
 //               </Link>
 //               <Link href="/profile" className="dashboard-nav-link text-zinc-300">
-//                 👤 Profile
+//                 Profile
 //               </Link>
 //               <Link
 //                 href="/inventory"
 //                 className="dashboard-nav-link text-zinc-300"
 //               >
-//                 📦 Inventory
+//                 Inventory
 //               </Link>
 //               <Link href="/trades" className="dashboard-nav-link text-zinc-300">
-//                 🔁 Trades
+//                 Trades
 //               </Link>
 //             </nav>
 //           </div>

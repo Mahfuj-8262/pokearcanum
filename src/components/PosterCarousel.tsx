@@ -2,30 +2,28 @@
 import { useState, useEffect } from "react";
 import { RotatableCard } from "@/components/RotatableCard";
 
-// Poster can be just a string or an object with optional caption
 type PosterItem =
   | string
   | { image: string; caption?: string };
 
 type PosterCarouselProps = {
   posters: PosterItem[];
-  rotatingCard?: { front: string; back: string }; // Optional rotating card images
-  showRotatingCard?: boolean;                    // Whether to show it (default false)
-  caption?: string | React.ReactNode;            // Optional caption for left-side (string or JSX)
+  rotatingCard?: { front: string; back: string };
+  showRotatingCard?: boolean;       
+  caption?: string | React.ReactNode;   
 };
 
-// Responsive card size hook (unchanged)
 function useCardSize() {
   const [size, setSize] = useState({ width: 110, height: 160 });
   useEffect(() => {
     function handleResize() {
-      if (window.innerWidth >= 1024) { // lg and up
+      if (window.innerWidth >= 1024) { 
         setSize({ width: 240, height: 340 });
-      } else if (window.innerWidth >= 768) { // md
+      } else if (window.innerWidth >= 768) { 
         setSize({ width: 180, height: 260 });
-      } else if (window.innerWidth >= 640) { // sm
+      } else if (window.innerWidth >= 640) { 
         setSize({ width: 140, height: 200 });
-      } else { // mobile/xs
+      } else { 
         setSize({ width: 110, height: 160 });
       }
     }
@@ -52,7 +50,6 @@ export default function PosterCarousel({
 
   if (!posters || posters.length === 0) return null;
 
-  // Support string[] or PosterItem[]
   function getPoster(idx: number): { image: string; caption?: string; } {
     const p = posters[idx];
     if (typeof p === 'string') return { image: p, caption: undefined };
@@ -60,7 +57,6 @@ export default function PosterCarousel({
   }
   const currPoster = getPoster(curr);
 
-  // Determine the caption to display (prop takes precedence)
   const displayCaption = caption || currPoster.caption;
 
   return (
@@ -80,7 +76,6 @@ export default function PosterCarousel({
           }}
         />
 
-        {/* ---- Left-side Caption/Text Overlay ---- */}
         {displayCaption && (
           <div
             className="absolute left-3 xs:left-5 sm:left-8 md:left-12 top-1/2 -translate-y-1/2 z-20
@@ -92,7 +87,6 @@ export default function PosterCarousel({
           </div>
         )}
 
-        {/* ---- Right-side Rotating Card (optional) ---- */}
         {showRotatingCard && rotatingCard && (
           <div className="absolute top-1/2 right-2 md:right-10 -translate-y-1/2 z-30 block">
             <RotatableCard
@@ -104,7 +98,6 @@ export default function PosterCarousel({
           </div>
         )}
 
-        {/* --- Pagination dots --- */}
         <div className="absolute left-1/2 bottom-4 -translate-x-1/2 flex gap-2 z-20">
           {posters.map((_, idx) => (
             <button

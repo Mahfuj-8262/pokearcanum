@@ -26,7 +26,7 @@ export default function ProfilePage() {
 
   const handleSave = async () => {
     if (form.newPassword !== form.confirmNewPassword) {
-      setMsg("❌ New password and confirm password do not match.");
+      setMsg("Oops! New password and confirm password do not match!");
       return;
     }
     try {
@@ -37,16 +37,15 @@ export default function ProfilePage() {
         newPassword: form.newPassword,
       });
 
-      // ✅ after success, refresh session to pull latest username
       const refreshed = await refreshAccessToken();
       if (refreshed?.accessToken) {
-        window.location.reload(); // simplest way to ensure UI updates immediately
+        window.location.reload();
       }
 
-      setMsg("✅ Profile updated successfully.");
+      setMsg("Profile updated successfully!");
       setEditing(false);
     } catch (err: any) {
-      setMsg(`❌ Failed: ${err.message}`);
+      setMsg(`Failed: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -71,7 +70,6 @@ export default function ProfilePage() {
             </button>
           </div>
 
-          {/* Mock STATS (placeholders until real backend hook-up) */}
           <div className="flex flex-row gap-4 md:gap-12 mt-7 mb-3 justify-center w-full">
             <div className="flex flex-col items-center bg-yellow-100 border border-yellow-200 rounded-xl px-6 py-2 shadow">
               <FaIdCard className="text-yellow-400 text-xl mb-1" />

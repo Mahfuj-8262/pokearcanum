@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import CardPreview, { CardPreviewProps } from "@/components/CardPreview";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { getMarketplace, deleteMarketplace } from "@/lib/api"; // ✅ fetch from backend
+import { getMarketplace, deleteMarketplace } from "@/lib/api";
 
 export default function InventoryPage() {
   const [cards, setCards] = useState<CardPreviewProps[]>([]);
@@ -13,7 +13,7 @@ export default function InventoryPage() {
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const marketplaces = await getMarketplace(); // ✅ gets only current user listings
+        const marketplaces = await getMarketplace();
         const mapped: CardPreviewProps[] = marketplaces.map((m: any) => ({
           id: String(m.id),
           name: m.card.cardName,
@@ -79,14 +79,13 @@ export default function InventoryPage() {
                 >
                   <CardPreview {...card} />
 
-                  {/* Hover overlay actions */}
                   <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition">
                     <Link href={`/inventory/edit/${card.id}`}>
                       <button
                         title="Edit"
                         className="bg-white border border-yellow-400 rounded-full p-1 shadow hover:bg-yellow-100"
                       >
-                        ✏️
+                        Edit
                       </button>
                     </Link>
                     <button
@@ -94,7 +93,7 @@ export default function InventoryPage() {
                       onClick={() => handleDelete(card.id)}
                       className="bg-white border border-pink-400 rounded-full p-1 shadow hover:bg-pink-100 text-pink-500"
                     >
-                      🗑️
+                      Delete
                     </button>
                   </div>
                 </div>

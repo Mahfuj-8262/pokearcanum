@@ -94,7 +94,6 @@ export default function CardDetailPage() {
     <main className="min-h-screen py-16 flex flex-col items-center bg-gradient-to-br from-yellow-50 via-orange-50 to-fuchsia-100">
       <div className="w-full max-w-4xl bg-white/80 rounded-2xl shadow-xl border border-yellow-200 p-8">
         
-        {/* ⚠ Demo Only Banner */}
         <div className="mb-6 p-4 bg-yellow-100 border-l-4 border-yellow-500 rounded shadow">
           <p className="text-yellow-700 font-semibold">
             ⚠ Note: This project is for <span className="underline">showcase/demo</span> only.
@@ -104,10 +103,8 @@ export default function CardDetailPage() {
           </p>
         </div>
 
-        {/* Card details */}
         <CardDetails {...card} />
 
-        {/* Action buttons */}
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={handleBuyCard}

@@ -3,7 +3,7 @@
 // const API_URL = IS_PROD ? "" : (process.env.NEXT_PUBLIC_API_URL as string);
 
 // if (!API_URL && !IS_PROD) {
-//   throw new Error("❌ NEXT_PUBLIC_API_URL is not set in development");
+//   throw new Error("NEXT_PUBLIC_API_URL is not set in development");
 // }
 
 const API_URL = "https://pokearcanumbe-f7f9dnazeffebph9.southeastasia-01.azurewebsites.net/api";//process.env.NEXT_PUBLIC_API_URL as string;
@@ -121,7 +121,7 @@ export const updateProfile = (data: {
     body: JSON.stringify(data),
   });
 
-// ---------- Cards ----------
+// Cards
 export const getCards = () => apiRequest("/Card");
 export const getCardById = (id: number) => apiRequest(`/Card/${id}`);
 export const postCard = (card: {
@@ -171,13 +171,13 @@ export const updateMarketplace = (
 export const deleteMarketplace = (id: number) =>
   apiRequest(`/Marketplace/${id}`, { method: "DELETE" });
 
-// ---------- Trades ----------
+// Trades
 export const getTrades = () => apiRequest("/Trade");
 export const getTradeById = (id: number) => apiRequest(`/Trade/${id}`);
 export const postTrade = (marketplaceId: number) =>
   apiRequest("/Trade", { method: "POST", body: JSON.stringify({ marketplaceId }) });
 
-// ---------- Dashboard ----------
+// Dashboard
 export const getUserCount = () => apiRequest("/User/count");
 export const getTradeStats = () => apiRequest("/Trade/stats");
 export const getRecentTrades = () => apiRequest("/Trade/recent");
@@ -356,9 +356,9 @@ export const getTopCards = () => apiRequest("/Marketplace/top");
 // const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";// || "http://localhost:5278/api"; // backend base URL
 
 // if (!API_URL) {
-//   console.error("❌ API_URL is not set. Did you create .env.local?");
+//   console.error("API_URL is not set. Did you create .env.local?");
 // }
-// // 🔑 Tokens (kept in memory, refresh in localStorage)
+// // Tokens (kept in memory, refresh in localStorage)
 // let accessToken: string | null = null;
 // let refreshToken: string | null =
 //   typeof window !== "undefined" ? localStorage.getItem("refreshToken") : null;

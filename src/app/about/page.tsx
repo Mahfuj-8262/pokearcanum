@@ -32,10 +32,10 @@ export default function AboutPage() {
       <section className="mb-10">
         <h2 className="text-2xl font-semibold text-amber-300 mb-2">Why Trade With Us?</h2>
         <ul className="list-disc pl-6 space-y-1 text-gray-100">
-          <li>🗃️ Catalog thousands of cards, from Base Set to the latest releases.</li>
-          <li>🤝 Trade safely using verified user accounts and secure trade mechanisms.</li>
-          <li>🔍 Search and filter to find the exact cards you want.</li>
-          <li>🛡️ A friendly, community-focused experience for all fans.</li>
+          <li>Catalog thousands of cards, from Base Set to the latest releases.</li>
+          <li>Trade safely using verified user accounts and secure trade mechanisms.</li>
+          <li>Search and filter to find the exact cards you want.</li>
+          <li>A friendly, community-focused experience for all fans.</li>
         </ul>
       </section>
 

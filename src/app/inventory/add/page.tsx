@@ -21,7 +21,6 @@ export default function AddCardPage() {
               new card to your inventory.
             </p>
           </div>
-          {/* ✅ Aligned form with backend MarketplacePostDto */}
           <CardForm />
         </div>
       </main>
