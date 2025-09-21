@@ -46,11 +46,11 @@ export default function CardDetails(props: CardDetailsProps) {
             <i className="text-gray-600">{props.description}</i>
           </div>
         )}
-        <div className="flex gap-3 mt-4">
+        {/* <div className="flex gap-3 mt-4">
           <button className="bg-blue-600 hover:bg-blue-700 transition px-5 py-2 rounded text-white font-bold shadow">Buy</button>
           <button className="bg-purple-600 hover:bg-purple-700 transition px-5 py-2 rounded text-white font-bold shadow">Bid</button>
           <button className="bg-emerald-500 hover:bg-emerald-600 transition px-5 py-2 rounded text-white font-bold shadow">Request Trade</button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

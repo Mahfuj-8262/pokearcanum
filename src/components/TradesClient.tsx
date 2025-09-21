@@ -95,7 +95,7 @@ export default function TradesClient() {
                     {trade.amount.toFixed(2)}
                   </div>
                 </div>
-                <div className="flex flex-col gap-2 items-end">
+                {/* <div className="flex flex-col gap-2 items-end">
                   <Link href={`/chat?with=${partner}`}>
                     <button className="px-4 py-1 bg-indigo-500 hover:bg-indigo-600 rounded text-white font-semibold shadow">
                       Chat
@@ -106,7 +106,7 @@ export default function TradesClient() {
                       View Card
                     </button>
                   </Link>
-                </div>
+                </div> */}
               </div>
             );
           })}

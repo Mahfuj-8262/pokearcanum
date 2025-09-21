@@ -111,7 +111,7 @@ export default function CardDetailPage() {
             disabled={buying}
             className="px-6 py-3 bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 text-white font-bold rounded-xl shadow hover:scale-105 active:scale-95 transition disabled:opacity-50"
           >
-            {buying ? "Processing..." : `Buy for $${card.price}`}
+            {buying ? "Processing..." : `Buy for ৳${card.price}`}
           </button>
         </div>
       </div>
