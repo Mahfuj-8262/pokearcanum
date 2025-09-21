@@ -33,7 +33,7 @@ export default function CardDetailPage() {
           seller: data.user?.userName,
           hp: data.card.hp,
           description: data.card.description,
-          attacks: [], // placeholder
+          //attacks: [],
         });
       } catch (err) {
         console.error("Error fetching card:", err);

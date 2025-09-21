@@ -144,6 +144,7 @@ export const deleteCard = (id: number) =>
 // ---------- Marketplace ----------
 export const getAllMarketplaces = () => apiRequest("/Marketplace/all");
 export const getMarketplace = () => apiRequest("/Marketplace");
+
 export const getMarketplaceById = (id: number) =>
   apiRequest(`/Marketplace/${id}`);
 export const postMarketplace = (listing: {
