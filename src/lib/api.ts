@@ -163,7 +163,7 @@ export const postMarketplace = (listing: {
   });
 export const updateMarketplace = (
   id: number,
-  data: { price: number; status: number }
+  data: { price: number; status: number; description: string }
 ) =>
   apiRequest(`/Marketplace/${id}`, {
     method: "PUT",
