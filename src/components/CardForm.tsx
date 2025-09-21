@@ -11,7 +11,6 @@ export default function CardForm() {
     type: "",
     description: "",
     price: 0,
-    status: 1, // Available
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -133,7 +132,7 @@ export default function CardForm() {
         type: "",
         description: "",
         price: 0,
-        status: 1,
+        // status: 1,
       });
       setImageFile(null);
     } catch (err: any) {
